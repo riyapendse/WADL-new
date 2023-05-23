@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Assignment 1B</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<div class="container my-4">
+
+		<form id="addNumberForm" class="pt-4">
+			<div>
+				<label for="firstName">First Name</label>
+				<input type="text" class="form-control" name="firstName" required id="firstName" placeholder="Enter Your First Name">
+			</div>
+            <br>
+			<div>
+				<label for="lastName">Last Name</label>
+				<input type="text" class="form-control" name="lastName" required id="lastName" placeholder="Enter Your Last Name">
+			</div>
+            <br>
+			<div>
+				<label for="age">Age</label>
+				<input type="text" class="form-control" name="age" required id="age" placeholder="Enter Your Age">
+			</div>
+            <br>
+			<div>
+				<label for="email">Email ID</label>
+				<input type="email" class="form-control" name="email" required id="email" placeholder="Enter Your email ID">
+			</div>
+            <br>
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<hr>
+		</form>
+	</div>
+
+	<script>
+		function fetchData() {
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() 
+            {
+				if (this.readyState == 4 && this.status == 200) 
+                {
+					let data = JSON.parse(xhttp.responseText)
+
+					let string = `name: ${data.firstName} ${data.lastName} <hr>age: ${data.age}<hr>email: ${data.email}`;
+
+					w = window.open();
+					w.document.body.innerHTML = "<h1>User Details</h1><h3>";
+					w.document.body.innerHTML += string;
+					w.document.body.innerHTML += "</h3>";
+				}
+			};
+			xhttp.open("GET", "http://localhost:3000/", true);
+			xhttp.send();
+		}
+		document.body.onload = () => 
+        {
+			fetchData()
+
+			document.forms.addNumberForm.addEventListener("submit", (event) => 
+            {
+				event.preventDefault();
+				const firstName = event.target.firstName.value;
+				const lastName = event.target.lastName.value;
+				const age = event.target.age.value;
+				const email = event.target.email.value;
+
+				
+				$.ajax({
+					type: 'post',
+					url: 'http://localhost:3000/',
+					data: JSON.stringify({firstName, lastName, age, email}),
+					contentType: "application/json; charset=utf-8",
+					traditional: true,
+					success: function(data) {fetchData();}
+				});
+			})
+		};
+	</script>
+</body>
+
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <title>Ajax using node</title>
+</head>
+<body>
+    <div class="container my-4">
+        <form id="addNumberForm" class="pt-4">
+            <div>
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" required id="firstName" placeholder="Enter your first name">
+            </div>
+            <br>
+            <div>
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" required id="lastName" placeholder="Enter your last name">
+            </div>
+            <br>
+            <div>
+                <label for="age">Age</label>
+                <input type="text" name="age" required id="age" placeholder="Enter your age">
+            </div>
+            <br>
+            <div>
+                <label for="email">Email Id</label>
+                <input type="email" name="email" required id="email" placeholder="Enter your email id">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function fetchData()
+        {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function()
+			{
+				if(this.readyState==4 && this.state==200)
+				{
+					let data = JSON.parse(xhttp.responseText)
+					let string = `name: ${data.firstName} ${data.lastName} <hr> age: ${data.age} <hr> email: ${data.email}`;
+					w = window.open()
+					w.document.body.innerHTML = "<h1>User Details: </h1><h3>";
+					w.document.body.innerHTML += string;
+					w.document.body.innerHTML += "</h3>";
+				}
+			};
+			xhttp.open = ("GET", "http://localhost:3000",true);
+			xhttp.send();
+        }
+
+		document.body.onload = () =>
+		{
+			fetchData()
+			document.forms.addNumberForm.addEventListener("submit", (event) =>
+			{
+				event.preventDefault();
+				const firstName = event.target.firstName.value;
+				const lastName = event.target.lastName.value;
+				const age = event.target.age.value;
+				const email = event.target.email.value;
+
+				$.ajax({
+					type:post,
+					url:"http://localhost:3000",
+					data:JSON.stringify({firstName,lastName,age,email}),
+					contentType:"application/json; charset=utf-8",
+					traditional:true,
+					success:function(data){fetchData();}
+				});
+			})
+		};
+    </script>
+    
+</body>
+</html> -->
